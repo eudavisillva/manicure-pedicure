@@ -1,0 +1,1401 @@
+/* Reset e Estilos Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Paleta de Cores (Mantida) */
+    --bg-color: #ffffff;
+    --primary-color: #333333;
+    --accent-color: #E83E8C;
+    --accent-color-dark: #C71585;
+    --secondary-color: #6c757d;
+    --light-bg-color: #FFF0F5;
+    --highlight-color: var(--accent-color);
+    --star-color: #FFD700;
+
+    /* Variáveis de Espaçamento Fluido */
+    --space-xs: clamp(0.5rem, 1vw + 0.25rem, 0.75rem); /* Extra Pequeno */
+    --space-sm: clamp(0.75rem, 1.5vw + 0.25rem, 1.25rem); /* Pequeno */
+    --space-md: clamp(1rem, 2.5vw + 0.5rem, 2rem);     /* Médio */
+    --space-lg: clamp(1.5rem, 4vw + 1rem, 3.5rem);    /* Grande */
+    --space-xl: clamp(2.5rem, 7vw + 1rem, 5rem);     /* Extra Grande */
+
+     /* Largura Máxima para Conteúdo Principal (Evita esticar demais em telas enormes) */
+    --content-max-width: 1200px;
+    /* Largura Máxima Geral (Para containers principais) */
+    --container-max-width: 1600px;
+}
+
+html {
+    scroll-behavior: smooth;
+    /* Define o tamanho base para unidades rem */
+    font-size: 100%;
+    /* Melhora a renderização de texto em alguns navegadores */
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    overflow-x: hidden; /* Essencial */
+    line-height: 1.6; /* Define um line-height base */
+    min-height: 100vh; /* Garante que o body ocupe pelo menos a altura da tela */
+}
+
+/* Limitador de largura geral para conteúdo principal, centrado */
+.main-content-wrapper {
+    max-width: var(--container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    /* Adiciona padding lateral fluido que diminui em telas menores */
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+}
+
+
+/* Hero Section */
+.dynamic-hero {
+    /* Usa min-height, mas permite crescer se necessário */
+    min-height: 100vh;
+    /* Fallback simples para navegadores que não suportam dvh */
+    min-height: 100dvh; /* Unidade dinâmica de altura da viewport, mais precisa em mobile */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* Mantém o overflow hidden */
+    background: radial-gradient(circle, var(--light-bg-color), #ffffff 75%);
+    color: var(--primary-color);
+    padding: var(--space-lg) var(--space-md); /* Padding fluido */
+}
+.dynamic-hero .content {
+    position: relative;
+    z-index: 10;
+    /* Removido padding fixo, usa o padding do hero */
+    max-width: var(--content-max-width); /* Limita largura do texto */
+    width: 100%; /* Ocupa o espaço disponível até o max-width */
+}
+
+/* --- 1. Marquee Background (Adaptado para Fluidez) --- */
+.marquee-container {
+    position: absolute;
+    top: 50%; left: 0; width: 100%; /* Ok */
+    transform: translateY(-50%) rotate(-10deg);
+    z-index: 1;
+    opacity: 0.1; /* Mais sutil ainda */
+    pointer-events: none;
+}
+.marquee-content {
+    display: flex; width: fit-content;
+    /* Velocidade pode ser ajustada se necessário */
+    animation: marquee-scroll 40s linear infinite;
+}
+.marquee-content span {
+    /* Tamanho da fonte fluido */
+    font-size: clamp(1.5rem, 4vw + 0.5rem, 4rem);
+    color: var(--accent-color);
+    /* Margem fluida */
+    margin: 0 clamp(0.5rem, 2vw + 0.2rem, 2rem);
+    white-space: nowrap;
+}
+@keyframes marquee-scroll {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+/* --- 2. Elementos Interativos com Mouse (Adaptado para Fluidez) --- */
+.interactive-element {
+    position: absolute; z-index: 2;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(232, 62, 140, 0.1), rgba(199, 21, 133, 0.05)); /* Mais sutil */
+    transition: transform 0.2s ease-out;
+    will-change: transform;
+    pointer-events: none;
+    /* Tamanho fluido usando vmin (menor dimensão da viewport) */
+    width: clamp(40px, 10vmin, 120px);
+    height: clamp(40px, 10vmin, 120px);
+}
+.interactive-element.shape {
+    /* Posição relativa à viewport */
+    top: 15%; left: 10%;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    animation: subtleBlob 12s infinite ease-in-out alternate;
+}
+.interactive-element.circle {
+     /* Tamanho fluido menor */
+    width: clamp(25px, 6vmin, 60px);
+    height: clamp(25px, 6vmin, 60px);
+    bottom: 10%; right: 8%;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(232, 62, 140, 0.08));
+}
+
+/* --- 3. Elementos que Rolam com Scroll (Adaptado para Fluidez) --- */
+.scroll-roller {
+    position: absolute; z-index: 3;
+    background: linear-gradient(45deg, var(--accent-color), var(--accent-color-dark));
+    border-radius: 0.5rem; /* Usa rem */
+    will-change: transform;
+    transition: transform 0.1s linear;
+     /* Tamanho fluido */
+    width: clamp(30px, 5vmin, 70px);
+    height: clamp(30px, 5vmin, 70px);
+}
+.scroll-roller.shape-a { top: 70%; left: 20%; }
+.scroll-roller.shape-b {
+    width: clamp(20px, 4vmin, 50px);
+    height: clamp(20px, 4vmin, 50px);
+    top: 25%; right: 15%;
+    border-radius: 50%;
+}
+
+/* --- 4. Tipografia Cinética e Conteúdo do Hero (Adaptado) --- */
+.kinetic-title {
+    font-family: 'Dancing Script', cursive;
+    /* Clamp mais agressivo para o título principal */
+    font-size: clamp(2.5rem, 10vw + 1rem, 10rem);
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: var(--space-xs); /* Espaçamento fluido */
+    line-height: 1.1; /* Ajusta line-height */
+    white-space: nowrap;
+    opacity: 0;
+}
+.kinetic-title span {
+    display: inline-block; opacity: 0;
+    transform: translateY(50px) scale(0.8) rotate(-15deg);
+    animation: letter-appear-spin 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    /* Previne que letras individuais fiquem enormes */
+    /* max-width: 100%; */ /* Pode não ser necessário com clamp no pai */
+}
+/* Keyframe mantido */
+@keyframes letter-appear-spin {
+    0% { opacity: 0; transform: translateY(50px) scale(0.8) rotate(-15deg); }
+    100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+}
+
+/* Subtítulo e Botão do Hero */
+.subtitle {
+    /* Fonte fluida */
+    font-size: clamp(0.9rem, 1.5vw + 0.5rem, 1.7rem);
+    font-weight: 300; color: var(--secondary-color);
+    margin-bottom: var(--space-md); /* Espaçamento fluido */
+    max-width: 60ch; /* Limita largura baseado em caracteres, melhor para leitura */
+    margin-left: auto; margin-right: auto;
+    line-height: 1.6; /* Aumenta um pouco */
+}
+.hero-subtext {
+     /* Fonte fluida */
+    font-size: clamp(0.8rem, 1vw + 0.4rem, 1rem);
+    color: var(--secondary-color); margin-top: var(--space-sm);
+}
+.hero-subtext .fa-check-circle { color: var(--accent-color); margin-right: 0.3em; /* Usa em para espaçamento relativo à fonte */ }
+
+/* CTA Button (Geral - Fluido) */
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--accent-color), var(--accent-color-dark));
+    color: #fff;
+    /* Padding fluido */
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    /* Fonte fluida */
+    font-size: clamp(0.9rem, 1.2vw + 0.5rem, 1.3rem);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Largura máxima para evitar botões gigantes em telas enormes */
+    max-width: 90%;
+}
+.cta-button:hover {
+    transform: scale(1.03); /* Hover mais sutil */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Animações Fade/Pop (Mantido, visibilidade controlada por JS) */
+.fade-in, .pop-in {
+    opacity: 0;
+    transition: opacity 0.8s ease-out 0.5s, transform 0.8s ease-out 0.5s;
+}
+.fade-in { transform: translateY(20px); }
+.pop-in { transform: scale(0.8); }
+.is-visible .fade-in, .is-visible .pop-in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Estilos Gerais para Seções de Conteúdo */
+.content-section {
+    /* Padding vertical e horizontal fluido */
+    padding: var(--space-xl) var(--space-md);
+    text-align: center;
+    /* Adiciona um wrapper interno para limitar a largura do conteúdo */
+    /* mas permite que o fundo da seção ocupe a largura total */
+    container-type: inline-size; /* Necessário para Container Queries */
+    container-name: content-section; /* Nomeia o container */
+}
+.content-section-wrapper {
+    max-width: var(--content-max-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+.content-section.alt-bg {
+    background-color: var(--light-bg-color);
+}
+.section-title {
+    font-family: 'Chivo', sans-serif;
+    /* Fonte fluida */
+    font-size: clamp(1.8rem, 5vw + 0.5rem, 3.5rem);
+    font-weight: 900;
+    color: var(--primary-color);
+    margin-bottom: var(--space-lg); /* Espaçamento fluido */
+    position: relative;
+    line-height: 1.2;
+}
+.section-title .highlight { color: var(--highlight-color); }
+.section-title::after {
+    content: ''; display: block;
+    /* Largura fluida com mínimo e máximo */
+    width: clamp(60px, 10vw, 100px);
+    height: 3px;
+    background-color: var(--highlight-color);
+    margin: var(--space-sm) auto 0;
+    border-radius: 2px;
+}
+
+/* --- Seção Benefícios (Grid Fluido) --- */
+.benefits-grid {
+    display: grid;
+    /* Colunas fluidas: preenche automaticamente (auto-fit) com colunas de no mínimo 250px */
+    /* e no máximo 1 fração do espaço (1fr), adaptando-se a qualquer largura */
+    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+    gap: var(--space-md); /* Espaçamento fluido */
+    /* max-width removido, usa o wrapper da seção */
+}
+.benefit-card {
+    background-color: #fff;
+    padding: var(--space-md); /* Padding fluido */
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+    transition: transform 0.3s ease;
+    /* Define como container para queries */
+    container-type: inline-size;
+    container-name: benefit-card;
+}
+.benefit-card:hover { transform: translateY(-5px); } /* Hover mais sutil */
+.benefit-icon {
+    /* Tamanho fluido */
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--accent-color);
+    margin-bottom: var(--space-sm);
+}
+.benefit-card h3 {
+    font-family: 'Chivo', sans-serif;
+     /* Fonte fluida */
+    font-size: clamp(1.1rem, 1.5vw + 0.7rem, 1.5rem);
+    margin-bottom: var(--space-xs);
+    color: var(--primary-color);
+    line-height: 1.3;
+}
+.benefit-card p {
+    /* Fonte fluida */
+    font-size: clamp(0.85rem, 1vw + 0.5rem, 1rem);
+    line-height: 1.6;
+    color: var(--secondary-color);
+}
+/* Exemplo de Container Query: Aumentar o ícone se o card ficar largo */
+@container benefit-card (min-width: 350px) {
+  .benefit-icon {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+  }
+}
+
+/* ==========================================================================
+   5. Seção Conteúdo do Curso (CSS Corrigido para Melhor Quebra de Linha)
+   ========================================================================== */
+
+/* Garante o padding e fundo corretos para a seção */
+#course-content.content-section {
+    padding: var(--space-xl) var(--space-md);
+    background-color: var(--light-bg-color); /* Mantém fundo alternativo */
+    text-align: center;
+    container-type: inline-size;
+    container-name: content-section;
+}
+
+/* Wrapper interno (se estiver usando) */
+#course-content .content-section-wrapper {
+     max-width: var(--content-max-width-standard);
+     margin-left: auto;
+     margin-right: auto;
+}
+
+/* Título da Seção (Mantido como antes) */
+#course-content .section-title {
+    font-family: 'Chivo', sans-serif;
+    font-size: clamp(1.8rem, 5vw + 0.5rem, 3.5rem);
+    font-weight: 900;
+    color: var(--primary-color);
+    margin-bottom: var(--space-lg);
+    position: relative;
+    line-height: 1.2;
+}
+#course-content .section-title .highlight { color: var(--highlight-color); }
+#course-content .section-title::after {
+    content: ''; display: block;
+    width: clamp(60px, 10vw, 100px); height: 3px;
+    background-color: var(--highlight-color);
+    margin: var(--space-sm) auto 0; border-radius: 2px;
+}
+
+/* Container das Colunas de Lista */
+.content-columns {
+    display: flex;
+    flex-wrap: wrap; /* Permite quebrar em 1 coluna em telas pequenas */
+    justify-content: center; /* Centraliza as colunas */
+    /* Reduz o espaçamento entre as colunas para dar mais espaço */
+    gap: var(--space-md); /* << AJUSTE: Era --space-lg, agora --space-md */
+    /* max-width removido, usa o wrapper da seção */
+    margin-bottom: var(--space-lg);
+    text-align: left; /* Mantém texto da lista alinhado à esquerda */
+}
+
+/* Estilo das Listas (Colunas) */
+.content-list {
+    list-style: none;
+    padding: 0;
+    /* Ajuste no Flex Basis: */
+    /* - Reduz o tamanho mínimo antes de quebrar (de 280px para 240px) */
+    /* - Garante que não exceda 100% da largura disponível */
+    flex: 1 1 min(240px, 100%); /* << AJUSTE AQUI */
+}
+
+/* Estilo dos Itens da Lista (<li>) */
+.content-list li {
+    margin-bottom: var(--space-sm); /* Espaçamento fluido */
+    font-size: clamp(0.9rem, 1.1vw + 0.5rem, 1.1rem); /* Mantém fonte fluida */
+    color: var(--primary-color);
+    display: flex; /* Mantém flex para alinhar ícone e texto */
+    /* Ajuste no Alinhamento Vertical: */
+    /* 'baseline' pode alinhar melhor a primeira linha de texto com o ícone */
+    /* 'flex-start' alinha o topo do ícone com o topo da caixa de texto (bom se o texto não quebrar) */
+    align-items: baseline; /* << AJUSTE: Tente 'baseline' ou volte para 'flex-start' se preferir */
+    line-height: 1.5; /* Leve aumento para texto que quebra linha */
+    /* Opcional: Ajuda a quebrar palavras longas se for o caso */
+    /* word-break: break-word; */
+}
+
+/* Ícone dentro da Lista */
+.content-list .list-icon {
+    color: var(--accent-color); /* Cor rosa original */
+    margin-right: var(--space-xs); /* Espaço fluido à direita */
+    font-size: 1em; /* Tamanho relativo ao texto do li */
+    /* Ajuste fino na posição vertical do ícone em relação à linha de base do texto */
+    /* Talvez precise ajustar um pouco para cima ou baixo dependendo da fonte/ícone */
+    /* Exemplo: position: relative; top: 0.1em; */
+     margin-top: 0.1em; /* Tenta alinhar melhor com baseline */
+     flex-shrink: 0; /* Evita que o ícone encolha */
+}
+
+/* Imagem abaixo das listas (Mantido como antes) */
+.content-image {
+    display: block;
+    max-width: 100%;
+    width: clamp(300px, 80%, 700px);
+    height: auto;
+    border-radius: 10px;
+    margin: var(--space-md) auto 0 auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Certifique-se que a animação de scroll funcione nesta seção também */
+#course-content.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+}
+#course-content.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Adiciona a animação à imagem também, se desejado */
+#course-content .content-image.reveal-on-scroll {
+     transition-delay: 0.2s; /* Pequeno delay para a imagem */
+}
+
+
+
+/* --- Seção Sobre a Instrutora (Layout Fluido) --- */
+.instructor-bio {
+    display: flex;
+    flex-wrap: wrap; /* Quebra a linha em telas pequenas */
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
+    /* max-width removido, usa o wrapper da seção */
+    text-align: center; /* Centraliza texto em telas pequenas quando quebrar */
+}
+.instructor-photo {
+    /* Tamanho fluido com clamp */
+    width: clamp(150px, 30vmin, 280px);
+    height: clamp(150px, 30vmin, 280px);
+    border-radius: 50%;
+    object-fit: cover;
+    border: clamp(3px, 1vmin, 6px) solid var(--accent-color); /* Borda fluida */
+    box-shadow: 0 0 clamp(10px, 3vmin, 25px) rgba(232, 62, 140, 0.3); /* Sombra fluida */
+    flex-shrink: 0; /* Evita que a imagem encolha demais */
+}
+.instructor-text {
+    flex: 1; /* Ocupa o espaço restante */
+    min-width: min(300px, 100%); /* Mínimo, mas não maior que 100% */
+    text-align: left; /* Alinha à esquerda por padrão */
+}
+/* Centraliza texto quando a imagem está acima (layout de coluna) */
+@media (max-width: 650px) {
+    .instructor-bio {
+        text-align: center;
+    }
+     .instructor-text {
+        text-align: center;
+    }
+}
+.instructor-text h3 {
+    font-family: 'Dancing Script', cursive;
+    /* Fonte fluida */
+    font-size: clamp(2rem, 5vw + 0.5rem, 3rem);
+    color: var(--accent-color);
+    margin-bottom: var(--space-sm);
+}
+.instructor-text p {
+    /* Fonte fluida */
+    font-size: clamp(0.9rem, 1vw + 0.5rem, 1.1rem);
+    line-height: 1.7;
+    margin-bottom: var(--space-sm);
+    color: var(--secondary-color);
+    max-width: 65ch; /* Limita largura do parágrafo para leitura */
+    /* margin-left: auto; margin-right: auto; */ /* Descomentar se quiser centralizar o texto dentro do container */
+}
+.instructor-text p em { color: var(--primary-color); font-style: italic; }
+.social-icons { margin-top: var(--space-sm); }
+.social-icons a {
+    color: var(--accent-color);
+    /* Tamanho fluido */
+    font-size: clamp(1.2rem, 2vw + 0.5rem, 1.8rem);
+    margin: 0 var(--space-xs); /* Espaçamento fluido */
+    transition: color 0.3s ease;
+}
+.social-icons a:hover { color: var(--accent-color-dark); }
+
+/* --- Seção Depoimentos (Grid Fluido) --- */
+.testimonial-grid {
+    display: grid;
+    /* Grid fluido */
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: var(--space-md);
+    /* max-width removido, usa o wrapper da seção */
+}
+.testimonial-card {
+    background-color: #fff;
+    padding: var(--space-lg) var(--space-md); /* Mais padding vertical */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid var(--accent-color);
+    position: relative;
+}
+.testimonial-card::before {
+    content: '\f10d'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+    position: absolute; top: var(--space-sm); left: var(--space-sm);
+    /* Tamanho fluido */
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--accent-color); opacity: 0.08;
+}
+.testimonial-card p {
+    /* Fonte fluida */
+    font-size: clamp(0.9rem, 1vw + 0.5rem, 1.1rem);
+    line-height: 1.6;
+    margin-bottom: var(--space-sm);
+    color: var(--secondary-color);
+    font-style: italic;
+}
+.testimonial-card span {
+    font-weight: 700; color: var(--primary-color); display: block; margin-bottom: var(--space-xs);
+    /* Fonte fluida */
+    font-size: clamp(0.9rem, 1vw + 0.4rem, 1rem);
+}
+.stars { color: var(--star-color); font-size: clamp(0.8rem, 1vw + 0.3rem, 1rem); }
+
+/* ==========================================================================
+   7. Seção Oferta (CSS Completo e Corrigido)
+   ========================================================================== */
+
+/* --- Container Principal da Seção Oferta --- */
+.offer-section {
+    /* -- Cores Escuras para o Fundo da Seção -- */
+    --offer-accent-color: #C71585;      /* Rosa/Vinho Médio */
+    --offer-accent-color-dark: #880E4F; /* Vinho/Roxo Escuro */
+    --offer-title-color: #ffffff;       /* Cor do Título Principal (Branco) */
+    --offer-highlight-color: #ffffff;   /* Cor do Destaque no Título (Branco) */
+
+    /* -- Cores Originais (para Preço/Botão) - Definidas aqui para referência fácil */
+    --original-accent-color: #E83E8C;       /* Rosa Vibrante Original */
+    --original-accent-color-dark: #C71585;  /* Rosa Médio Original */
+
+    /* -- Layout e Estilo da Seção -- */
+    background: linear-gradient(135deg, var(--offer-accent-color), var(--offer-accent-color-dark)); /* Gradiente escuro */
+    color: #fff; /* Texto padrão branco na seção */
+    padding: var(--space-xl) var(--space-md); /* Padding fluido */
+    text-align: center;
+    /* Setup para Container Query (se usado) */
+    container-type: inline-size;
+    container-name: content-section;
+}
+
+/* Wrapper interno para limitar largura (se estiver usando globalmente) */
+/* Garante que o wrapper não tenha fundo ou cor que interfira */
+.offer-section .content-section-wrapper {
+     max-width: var(--content-max-width-standard);
+     margin-left: auto;
+     margin-right: auto;
+     background: none; /* Garante sem fundo */
+     color: inherit; /* Garante herança de cor */
+}
+
+/* Título da Seção */
+.offer-section .section-title {
+    color: var(--offer-title-color); /* Branco */
+    font-family: 'Chivo', sans-serif;
+    font-size: clamp(1.8rem, 5vw + 0.5rem, 3.5rem);
+    font-weight: 900;
+    margin-bottom: var(--space-lg);
+    position: relative;
+    line-height: 1.2;
+}
+/* Linha decorativa */
+.offer-section .section-title::after {
+    content: '';
+    display: block;
+    width: clamp(60px, 10vw, 100px);
+    height: 3px;
+    background-color: #fff; /* Branca */
+    margin: var(--space-sm) auto 0;
+    border-radius: 2px;
+}
+/* Texto destacado no título */
+.offer-section .section-title .highlight {
+    color: var(--offer-highlight-color); /* Branco */
+    background: none; /* Garante sem fundo */
+}
+
+
+/* --- Caixa de Oferta Interna (Layout Principal) --- */
+.offer-box {
+    /* -- Layout Flexbox Responsivo -- */
+    display: flex;
+    flex-wrap: wrap; /* Permite quebrar em telas menores */
+    gap: var(--space-lg); /* Espaçamento fluido entre colunas */
+    justify-content: space-around; /* Distribui espaço */
+    align-items: center; /* Alinha verticalmente */
+
+    /* -- Estilo da Caixa -- */
+    background-color: #fff; /* Fundo branco */
+    color: var(--primary-color); /* Texto escuro padrão dentro da caixa */
+    padding: var(--space-lg); /* Padding interno fluido */
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    /* max-width removido, usa o wrapper da seção pai */
+    margin-top: var(--space-lg); /* Espaço acima da caixa */
+}
+
+/* Coluna de Detalhes do Preço */
+.offer-details {
+    /* -- Layout Flex Item -- */
+    /* Base flexível, cresce/encolhe, mínimo de 300px ou 100% */
+    flex: 1 1 min(300px, 100%);
+    /* -- Estilo -- */
+    text-align: center;
+}
+
+/* Coluna do "O que você recebe" */
+.offer-includes {
+     /* -- Layout Flex Item -- */
+    flex: 1 1 min(300px, 100%);
+     /* -- Estilo -- */
+    text-align: left;
+}
+
+
+/* --- Estilos Dentro da Coluna de Detalhes (offer-details) --- */
+.offer-details .original-price {
+    font-size: clamp(1rem, 1.5vw + 0.5rem, 1.3rem);
+    color: var(--secondary-color); /* Cinza */
+    margin-bottom: var(--space-xs);
+    text-decoration: line-through; /* Mantém o riscado */
+}
+.offer-details .promo-price {
+    font-size: clamp(1.1rem, 1.8vw + 0.5rem, 1.5rem);
+    margin-bottom: 0;
+    color: var(--primary-color); /* Texto escuro */
+}
+/* Preço principal com COR REVERTIDA */
+.offer-details .installments {
+    font-size: clamp(2.5rem, 8vw + 1rem, 5rem);
+    font-weight: 900;
+    color: var(--original-accent-color); /* <<< Rosa Vibrante Original */
+    line-height: 1;
+    margin-bottom: var(--space-xs);
+}
+.offer-details .installments .price-value {
+    font-size: 1.2em; /* Valor ligeiramente maior */
+}
+.offer-details .or-price {
+    font-size: clamp(1rem, 1.5vw + 0.5rem, 1.3rem);
+    margin-bottom: var(--space-md); /* Mais espaço antes do botão */
+    color: var(--primary-color); /* Texto escuro */
+}
+/* Botão com CORES REVERTIDAS */
+.offer-details .offer-button {
+     /* -- Cores Revertidas -- */
+    background: linear-gradient(90deg, var(--original-accent-color), var(--original-accent-color-dark)); /* Gradiente Rosa Original */
+    color: #fff; /* Texto branco */
+
+    /* -- Layout e Estilo do Botão -- */
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    padding: var(--space-sm) var(--space-xl);
+    font-size: clamp(1rem, 1.5vw + 0.5rem, 1.4rem);
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+/* Hover/Focus do botão */
+.offer-details .offer-button:hover,
+.offer-details .offer-button:focus {
+    background: linear-gradient(90deg, var(--original-accent-color-dark), #b31378); /* Exemplo de gradiente levemente mais escuro para hover */
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    color: #fff;
+    text-decoration: none;
+}
+/* Informação de segurança */
+.offer-details .secure-info {
+    font-size: clamp(0.8rem, 1vw + 0.4rem, 1rem);
+    margin-top: var(--space-sm);
+    color: var(--secondary-color); /* Cinza */
+}
+.offer-details .secure-info .fa-lock {
+    margin-right: 0.3em;
+    color: #28a745; /* Verde */
+}
+
+
+/* --- Estilos Dentro da Coluna de Inclusos (offer-includes) --- */
+.offer-includes h3 {
+    font-family: 'Chivo', sans-serif;
+    font-size: clamp(1.3rem, 2.5vw + 0.5rem, 1.8rem);
+    margin-bottom: var(--space-md);
+    /* Cor escura (vinho) para contraste no fundo branco da caixa */
+    color: var(--offer-accent-color-dark);
+}
+.offer-includes ul {
+    list-style: none;
+    padding: 0;
+}
+.offer-includes li {
+    margin-bottom: var(--space-sm);
+    font-size: clamp(0.9rem, 1vw + 0.5rem, 1.1rem);
+    display: flex;
+    align-items: flex-start;
+}
+/* Ícones da lista com COR REVERTIDA */
+.offer-includes .list-icon {
+    color: var(--original-accent-color); /* <<< Rosa Vibrante Original */
+    font-size: 1em;
+    margin-right: var(--space-xs);
+    margin-top: 0.15em;
+    flex-shrink: 0;
+}
+/* Estilo para itens bônus */
+.offer-includes .bonus {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+/* Ícone de bônus */
+.offer-includes .bonus .list-icon {
+    color: var(--star-color); /* Dourado */
+}
+
+/* ==========================================================================
+   Fim da Seção Oferta
+   ========================================================================== */
+
+
+
+/* --- Rodapé --- */
+.footer {
+    background-color: #1f2937; color: #9ca3af;
+    text-align: center;
+    padding: var(--space-md) var(--space-sm); /* Padding fluido */
+    font-size: clamp(0.8rem, 1vw + 0.4rem, 0.95rem); /* Fonte fluida */
+}
+.footer a { color: #9ca3af; text-decoration: none; transition: color 0.3s ease; }
+.footer a:hover { color: #fff; }
+.footer p { margin-bottom: var(--space-xs); }
+
+
+/* --- Animação Reveal-on-Scroll --- */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px); /* Reduz um pouco o deslocamento */
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out; /* Animação um pouco mais rápida */
+    will-change: opacity, transform;
+}
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* --- Animação blob reutilizada (Mantida) --- */
+@keyframes subtleBlob {
+  0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; transform: scale(1) rotate(0deg); }
+  50% { border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%; transform: scale(1.05) rotate(5deg); }
+  100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; transform: scale(1) rotate(0deg); }
+}
+
+/* --- Media Queries para Simplificação Extrema --- */
+
+/* Telas MUITO pequenas (Smartwatches, etc.) */
+@media (max-width: 360px) {
+    /* Reduz drasticamente o tamanho da fonte base */
+    html { font-size: 90%; }
+
+    /* Esconde elementos puramente decorativos e que consomem espaço/CPU */
+    .marquee-container,
+    .interactive-element,
+    .scroll-roller {
+        display: none;
+    }
+
+    .dynamic-hero {
+        min-height: auto; /* Altura automática */
+        padding: var(--space-lg) var(--space-sm); /* Menos padding */
+    }
+
+    .kinetic-title { font-size: clamp(2rem, 12vw + 0.5rem, 4rem); } /* Ainda menor */
+    .subtitle { font-size: clamp(0.8rem, 3vw + 0.5rem, 1rem); max-width: 90%; }
+    .cta-button { padding: var(--space-sm) var(--space-md); font-size: clamp(0.8rem, 3vw + 0.5rem, 1rem); }
+    .hero-subtext { display: none; } /* Esconde subtexto */
+
+    .content-section { padding: var(--space-lg) var(--space-sm); }
+    .section-title { font-size: clamp(1.5rem, 6vw + 0.5rem, 2.2rem); margin-bottom: var(--space-md); }
+    .section-title::after { width: 50px; margin-top: var(--space-xs); }
+
+    .benefits-grid { gap: var(--space-sm); }
+    .benefit-card { padding: var(--space-sm); }
+    .benefit-icon { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+
+    .content-columns { gap: var(--space-md); }
+    .content-list li { font-size: clamp(0.8rem, 2.5vw + 0.5rem, 0.95rem); }
+
+    .instructor-bio { gap: var(--space-md); }
+    .instructor-photo { width: clamp(100px, 35vw, 150px); height: clamp(100px, 35vw, 150px); }
+    .instructor-text h3 { font-size: clamp(1.8rem, 7vw, 2.5rem); }
+
+    .testimonial-grid { gap: var(--space-sm); }
+    .testimonial-card { padding: var(--space-md) var(--space-sm); }
+
+    .offer-box { padding: var(--space-md); gap: var(--space-md); }
+    .installments { font-size: clamp(2rem, 10vw + 1rem, 3.5rem); }
+    .installments .price-value { font-size: 1.2em; }
+    .offer-includes h3 { font-size: clamp(1.1rem, 4vw + 0.5rem, 1.5rem); }
+
+    .footer { padding: var(--space-sm); font-size: clamp(0.7rem, 2vw + 0.4rem, 0.8rem); }
+}
+
+/* Opcional: Estilos para telas Extremamente Largas (Ex: Sphere) */
+@media (min-width: 2500px) {
+     html { font-size: 110%; } /* Aumenta um pouco a base */
+
+     /* Mantém os wrappers de conteúdo para evitar linhas muito longas */
+     /* O max-width já está definido nas variáveis, mas pode reforçar aqui se necessário */
+
+     /* Pode aumentar um pouco a opacidade de elementos de fundo se desejar mais impacto visual */
+     .marquee-container { opacity: 0.15; }
+     .interactive-element { opacity: 0.2; }
+}
+
+/* Fallback para navegadores sem suporte a clamp() (menos provável hoje em dia) */
+/* Definir valores médios ou baseados em rem */
+body { font-size: 1rem; }
+h1 { font-size: 4rem; }
+h2 { font-size: 2.5rem; }
+/* ... etc ... */
+
+
+
+/* ==========================================================================
+   10. Estilos Específicos para Página de Termos de Uso (Responsividade Extrema)
+   ========================================================================== */
+
+/* Container Principal da página de termos */
+/* Assume que a classe '.container' (definida globalmente com max-width e margin auto) */
+/* foi adicionada ao elemento <main> no HTML: <main class="terms-container container"> */
+.terms-container {
+    /* Padding interno fluido, usando variáveis globais */
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-xl);
+    background-color: var(--bg-color); /* Usa variável global */
+    color: var(--primary-color); /* Usa variável global */
+    /* Largura é controlada pela classe .container, garantindo consistência */
+    width: 100%; /* Ocupa a largura do .container */
+}
+
+/* Cabeçalho simples (se usado) - Já estava usando técnicas fluidas */
+.simple-header {
+    padding: var(--space-sm) 0; /* Padding vertical fluido */
+    background-color: var(--light-bg-color);
+    border-bottom: 1px solid #eee; /* Borda fina ok */
+}
+.simple-header .container {
+     /* Garante que o container interno do header use as variáveis globais */
+     max-width: var(--container-max-width-full);
+     padding-left: var(--space-md); /* Padding lateral fluido */
+     padding-right: var(--space-md);
+     margin-left: auto;
+     margin-right: auto;
+}
+.simple-header .back-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 700;
+    /* Fonte fluida com clamp() */
+    font-size: clamp(0.9rem, 1vw + 0.5rem, 1.1rem);
+}
+.simple-header .back-link:hover {
+    text-decoration: underline;
+}
+
+
+/* Título Principal (H1) da Página de Termos */
+.terms-container h1 {
+    font-family: 'Chivo', sans-serif;
+    /* Fonte fluida com clamp() */
+    font-size: clamp(1.8rem, 4vw + 1rem, 3rem);
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: var(--space-xs); /* Espaçamento fluido */
+    /* Borda fluida (exemplo usando em, relativo ao font-size) ou manter px */
+    border-bottom: max(2px, 0.1em) solid var(--accent-color);
+    padding-bottom: var(--space-sm); /* Espaçamento fluido */
+    line-height: 1.3;
+}
+
+/* Data da última atualização */
+.terms-container .last-updated {
+    text-align: center;
+    /* Fonte fluida com clamp() */
+    font-size: clamp(0.8rem, 1vw + 0.4rem, 0.9rem);
+    color: var(--secondary-color);
+    margin-bottom: var(--space-xl); /* Espaçamento fluido */
+}
+
+/* Seções dentro dos termos */
+.terms-container section {
+    margin-bottom: var(--space-lg); /* Espaçamento fluido */
+}
+
+/* Títulos das Seções (H2) */
+.terms-container h2 {
+    font-family: 'Chivo', sans-serif;
+    /* Fonte fluida com clamp() */
+    font-size: clamp(1.3rem, 2.5vw + 0.7rem, 1.8rem);
+    color: var(--primary-color);
+    margin-bottom: var(--space-sm); /* Espaçamento fluido */
+    padding-bottom: var(--space-xs); /* Espaçamento fluido */
+    border-bottom: 1px solid #eee; /* Borda fina ok */
+}
+
+/* Parágrafos de Texto */
+.terms-container p {
+    /* Fonte fluida com clamp() */
+    font-size: clamp(0.9rem, 1vw + 0.5rem, 1.05rem);
+    color: var(--secondary-color);
+    line-height: 1.7; /* Boa legibilidade */
+    margin-bottom: var(--space-sm); /* Espaçamento fluido */
+    /* Otimização de Legibilidade: Limita a largura da linha de texto */
+    /* usando a unidade 'ch' (largura aproximada de um caractere '0') */
+    /* Isso evita linhas excessivamente longas em telas largas */
+    max-width: var(--content-max-width-narrow, 70ch); /* Usa variável ou fallback */
+    /* Centraliza o bloco de parágrafo se ele for menor que o container pai */
+    /* margin-left: auto; */ /* Descomente se o container for mais largo */
+    /* margin-right: auto; */ /* Descomente se o container for mais largo */
+}
+.terms-container p strong {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+/* Listas (se houver) */
+.terms-container ul,
+.terms-container ol {
+    margin-bottom: var(--space-sm); /* Espaçamento fluido */
+    padding-left: var(--space-lg); /* Recuo fluido usando padding */
+    /* Opcional: Limitar largura como parágrafos */
+    max-width: var(--content-max-width-narrow, 70ch);
+    /* margin-left: auto; */ /* Descomente se precisar centralizar */
+    /* margin-right: auto; */
+}
+.terms-container li {
+    margin-bottom: var(--space-xs); /* Espaçamento fluido */
+    color: var(--secondary-color);
+    /* Fonte herda de 'p' ou pode ser definida aqui com clamp() se necessário */
+    font-size: inherit; /* Garante herança */
+    line-height: 1.7;
+}
+
+/* Espaçamento antes do Rodapé */
+/* Aplica a margem ao último elemento filho do container */
+.terms-container > *:last-child {
+     margin-bottom: 0; /* Remove margem inferior do último elemento */
+}
+/* Garante espaço antes do footer (se ele for irmão do .terms-container) */
+.terms-container + .footer {
+     margin-top: var(--space-xl);
+}
+
+
+/* -- Media Query para Telas Muito Pequenas (Ex: < 360px) -- */
+/* Ajustes finos opcionais para legibilidade extrema */
+@media (max-width: 360px) {
+    /* Reduz um pouco mais os paddings da seção */
+    .terms-container {
+        padding-top: var(--space-md);
+        padding-bottom: var(--space-lg);
+    }
+
+    /* Reduz levemente os títulos */
+    .terms-container h1 {
+        font-size: clamp(1.5rem, 4vw + 1rem, 2.5rem);
+    }
+    .terms-container h2 {
+        font-size: clamp(1.1rem, 2.5vw + 0.6rem, 1.5rem);
+    }
+    /* Reduz levemente o texto */
+     .terms-container p, .terms-container li {
+         font-size: clamp(0.85rem, 1vw + 0.45rem, 1rem);
+     }
+    /* Reduz recuo da lista */
+     .terms-container ul,
+     .terms-container ol {
+         padding-left: var(--space-md);
+     }
+}
+
+/* ==========================================================================
+   Fim dos Estilos da Página de Termos de Uso (Responsividade Extrema)
+   ========================================================================== */
+
+
+/* ==========================================================================
+   10. Estilos para Páginas Internas (Termos de Uso / Política de Privacidade)
+       (Aplicando Responsividade Extrema)
+   ========================================================================== */
+
+/* Container Principal das páginas internas */
+/* ANTES: .terms-container { ... } */
+/* DEPOIS: */
+.terms-container,
+.privacy-container {
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-xl);
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    width: 100%; /* Ocupa a largura do .container (classe adicionada no HTML) */
+}
+
+/* Cabeçalho simples (Mantido como antes, já era genérico) */
+.simple-header { /* ... */ }
+.simple-header .container { /* ... */ }
+.simple-header .back-link { /* ... */ }
+
+
+/* Título Principal (H1) das páginas internas */
+/* ANTES: .terms-container h1 { ... } */
+/* DEPOIS: */
+.terms-container h1,
+.privacy-container h1 {
+    font-family: 'Chivo', sans-serif;
+    font-size: clamp(1.8rem, 4vw + 1rem, 3rem);
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: var(--space-xs);
+    border-bottom: max(2px, 0.1em) solid var(--accent-color);
+    padding-bottom: var(--space-sm);
+    line-height: 1.3;
+}
+
+/* Data da última atualização */
+/* ANTES: .terms-container .last-updated { ... } */
+/* DEPOIS: */
+.terms-container .last-updated,
+.privacy-container .last-updated {
+    text-align: center;
+    font-size: clamp(0.8rem, 1vw + 0.4rem, 0.9rem);
+    color: var(--secondary-color);
+    margin-bottom: var(--space-xl);
+}
+
+/* Seções dentro das páginas internas */
+/* ANTES: .terms-container section { ... } */
+/* DEPOIS: */
+.terms-container section,
+.privacy-container section {
+    margin-bottom: var(--space-lg);
+}
+
+/* Títulos das Seções (H2) */
+/* ANTES: .terms-container h2 { ... } */
+/* DEPOIS: */
+.terms-container h2,
+.privacy-container h2 {
+    font-family: 'Chivo', sans-serif;
+    font-size: clamp(1.3rem, 2.5vw + 0.7rem, 1.8rem);
+    color: var(--primary-color);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid #eee;
+}
+
+/* Parágrafos de Texto */
+/* ANTES: .terms-container p { ... } */
+/* DEPOIS: */
+.terms-container p,
+.privacy-container p {
+    font-size: clamp(0.9rem, 1vw + 0.5rem, 1.05rem);
+    color: var(--secondary-color);
+    line-height: 1.7;
+    margin-bottom: var(--space-sm);
+    max-width: var(--content-max-width-narrow, 70ch);
+}
+/* ANTES: .terms-container p strong { ... } */
+/* DEPOIS: */
+.terms-container p strong,
+.privacy-container p strong {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+/* Listas */
+/* ANTES: .terms-container ul, .terms-container ol { ... } */
+/* DEPOIS: */
+.terms-container ul,
+.terms-container ol,
+.privacy-container ul,
+.privacy-container ol {
+    margin-bottom: var(--space-sm);
+    padding-left: var(--space-lg);
+    max-width: var(--content-max-width-narrow, 70ch);
+}
+/* ANTES: .terms-container li { ... } */
+/* DEPOIS: */
+.terms-container li,
+.privacy-container li {
+    margin-bottom: var(--space-xs);
+    color: var(--secondary-color);
+    font-size: inherit;
+    line-height: 1.7;
+}
+
+/* Espaçamento antes do Rodapé */
+/* ANTES: .terms-container > *:last-child { ... } */
+/* DEPOIS: */
+.terms-container > *:last-child,
+.privacy-container > *:last-child {
+     margin-bottom: 0;
+}
+/* ANTES: .terms-container + .footer { ... } */
+/* DEPOIS: */
+.terms-container + .footer,
+.privacy-container + .footer {
+     margin-top: var(--space-xl);
+}
+
+
+/* Media Query para Telas Muito Pequenas (< 360px) */
+@media (max-width: 360px) {
+    /* Aplica a ambos os containers */
+    .terms-container,
+    .privacy-container {
+        padding-top: var(--space-md);
+        padding-bottom: var(--space-lg);
+    }
+
+    .terms-container h1,
+    .privacy-container h1 {
+        font-size: clamp(1.5rem, 4vw + 1rem, 2.5rem);
+    }
+    .terms-container h2,
+    .privacy-container h2 {
+        font-size: clamp(1.1rem, 2.5vw + 0.6rem, 1.5rem);
+    }
+    .terms-container p, .terms-container li,
+    .privacy-container p, .privacy-container li {
+         font-size: clamp(0.85rem, 1vw + 0.45rem, 1rem);
+     }
+    .terms-container ul, .terms-container ol,
+    .privacy-container ul, .privacy-container ol {
+         padding-left: var(--space-md);
+     }
+}
+/* ==========================================================================
+   Fim dos Estilos das Páginas Internas
+   ========================================================================== */
+
+
+
+
+/* ==========================================================================
+   10. Estilos para Páginas Internas (Termos / Privacidade / Contato)
+       (Aplicando Responsividade Extrema)
+   ========================================================================== */
+
+/* Container Principal das páginas internas */
+.terms-container,
+.privacy-container,
+.contact-container { /* Adicionada classe .contact-container */
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-xl);
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    width: 100%; /* Ocupa a largura do .container */
+}
+
+/* Cabeçalho simples (Mantido como antes) */
+/* ... (nenhuma mudança necessária aqui) ... */
+
+
+/* Título Principal (H1) das páginas internas */
+.terms-container h1,
+.privacy-container h1,
+.contact-container h1 { /* Adicionada classe .contact-container */
+    font-family: 'Chivo', sans-serif;
+    font-size: clamp(1.8rem, 4vw + 1rem, 3rem);
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: var(--space-lg); /* Aumenta um pouco a margem */
+    padding-bottom: var(--space-sm);
+    border-bottom: max(2px, 0.1em) solid var(--accent-color);
+    line-height: 1.3;
+}
+
+/* Data da última atualização (não aplicável ao contato, mas não atrapalha) */
+.terms-container .last-updated,
+.privacy-container .last-updated {
+    /* ... */
+}
+
+/* Seções dentro das páginas internas (relevante para Termos/Privacidade) */
+.terms-container section,
+.privacy-container section {
+    margin-bottom: var(--space-lg);
+}
+
+/* Títulos das Seções (H2) - Usado em Termos/Privacidade e Contato */
+.terms-container h2,
+.privacy-container h2,
+.contact-container h2 { /* Adicionada classe .contact-container */
+    font-family: 'Chivo', sans-serif;
+    font-size: clamp(1.3rem, 2.5vw + 0.7rem, 1.8rem);
+    color: var(--primary-color);
+    margin-bottom: var(--space-md); /* Aumenta espaço antes do conteúdo */
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid #eee;
+    text-align: left; /* Alinha H2 à esquerda por padrão */
+}
+/* Centraliza H2 se dentro de um container com texto centralizado */
+.contact-direct-info h2, .contact-form-container h2 {
+    text-align: center; /* Centraliza H2 do contato */
+     border-bottom: none; /* Remove borda dos H2 de contato */
+     margin-bottom: var(--space-sm);
+}
+
+
+/* Parágrafos de Texto */
+.terms-container p,
+.privacy-container p,
+.contact-container p { /* Adicionada classe .contact-container */
+    font-size: clamp(0.9rem, 1vw + 0.5rem, 1.05rem);
+    color: var(--secondary-color);
+    line-height: 1.7;
+    margin-bottom: var(--space-sm);
+    max-width: var(--content-max-width-narrow, 70ch);
+}
+.terms-container p strong,
+.privacy-container p strong,
+.contact-container p strong { /* Adicionada classe .contact-container */
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+/* Listas (relevante para Termos/Privacidade) */
+.terms-container ul, .terms-container ol,
+.privacy-container ul, .privacy-container ol {
+    margin-bottom: var(--space-sm);
+    padding-left: var(--space-lg);
+    max-width: var(--content-max-width-narrow, 70ch);
+}
+.terms-container li,
+.privacy-container li {
+    margin-bottom: var(--space-xs);
+    color: var(--secondary-color);
+    font-size: inherit;
+    line-height: 1.7;
+}
+
+/* --- NOVOS ESTILOS ESPECÍFICOS PARA PÁGINA DE CONTATO --- */
+
+.contact-intro {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    /* Faz o parágrafo introdutório ocupar mais largura */
+    max-width: var(--content-max-width-standard, 800px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-direct-info {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+    padding: var(--space-md);
+    background-color: var(--light-bg-color); /* Fundo levemente destacado */
+    border-radius: 8px;
+}
+.contact-direct-info p {
+    max-width: none; /* Remove limite de caracteres aqui */
+    margin-bottom: var(--space-xs);
+    font-size: clamp(1rem, 1.2vw + 0.5rem, 1.2rem); /* Pouco maior */
+}
+.contact-direct-info .icon {
+    color: var(--accent-color);
+    margin-right: var(--space-xs);
+    width: 1.2em; /* Garante espaço para o ícone */
+    text-align: center;
+}
+.contact-direct-info a {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+.contact-direct-info .social-icons {
+    margin-top: var(--space-md);
+}
+.contact-direct-info .social-icons p {
+    margin-bottom: var(--space-xs);
+    font-weight: 700;
+    color: var(--primary-color);
+}
+.contact-direct-info .social-icons a {
+    font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2rem);
+    margin: 0 var(--space-xs);
+}
+
+.contact-form-container {
+    max-width: var(--content-max-width-narrow, 700px); /* Limita largura do form */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-form .form-group {
+    margin-bottom: var(--space-md); /* Espaço entre campos */
+    text-align: left; /* Alinha labels à esquerda */
+}
+
+.contact-form label {
+    display: block; /* Label acima do input */
+    margin-bottom: var(--space-xs);
+    font-weight: 700;
+    font-size: clamp(0.9rem, 1vw + 0.5rem, 1rem);
+    color: var(--primary-color);
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%; /* Ocupa toda a largura */
+    padding: var(--space-sm); /* Padding interno fluido */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit; /* Usa a fonte do body */
+    font-size: clamp(0.9rem, 1vw + 0.5rem, 1rem);
+    line-height: 1.5;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--color-primary); /* Muda cor da borda no foco */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); /* Sombra externa suave no foco */
+}
+
+.contact-form textarea {
+    resize: vertical; /* Permite redimensionar apenas verticalmente */
+    min-height: 120px; /* Altura mínima */
+}
+
+.contact-form .form-submit {
+    text-align: center; /* Centraliza o botão */
+    margin-top: var(--space-lg);
+}
+
+.contact-form .contact-submit-button {
+    /* Reutiliza a classe .button, mas pode ter ajustes */
+    padding: var(--space-md) var(--space-xl); /* Botão um pouco maior */
+    font-size: clamp(1rem, 1.3vw + 0.5rem, 1.3rem);
+}
+
+.form-note {
+    text-align: center;
+    font-style: italic;
+    margin-top: var(--space-lg);
+    font-size: clamp(0.85rem, 1vw + 0.4rem, 0.95rem);
+}
+
+
+/* Espaçamento antes do Rodapé (herdado de .terms/.privacy) */
+.contact-container > *:last-child { margin-bottom: 0; }
+.contact-container + .footer { margin-top: var(--space-xl); }
+
+
+/* Media Query para Telas Muito Pequenas (herdado de .terms/.privacy) */
+@media (max-width: 360px) {
+    .contact-container {
+        padding-top: var(--space-md);
+        padding-bottom: var(--space-lg);
+    }
+    .contact-container h1 { font-size: clamp(1.5rem, 4vw + 1rem, 2.5rem); }
+    .contact-container h2 { font-size: clamp(1.1rem, 2.5vw + 0.6rem, 1.5rem); }
+    .contact-container p { font-size: clamp(0.85rem, 1vw + 0.45rem, 1rem); }
+    .contact-form input, .contact-form textarea { font-size: clamp(0.85rem, 1vw + 0.45rem, 1rem); }
+}
+
+/* ==========================================================================
+   Fim dos Estilos das Páginas Internas
+   ========================================================================== */
+
+
